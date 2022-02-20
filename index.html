@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripe Generator - elooly10 - Github </title>
+    <script>
+         var stripes = {
+                amount: 1,
+                colors: [],
+                angle: 0, // Sometime angleing stripes would be cool
+                height: 100,
+            }
+        colorNameSpace = {
+            Gold: '#ffcc00',
+            Red: '#e43300',
+            Green: '#009900',
+            Blue: '#0066ff',
+            Black: '#33334e',
+            White: '#f0f0f0',
+            Lime: "#66f04e",
+            Sky: '#33cce4',
+            Orange: '#ff9900',
+            Gray: '#cccce4',
+            Pink: '#ff99cc',
+            Tan: "#ffcc99",
+            Purple: "#9900ff"
+        }
+        function color(location,name){
+            document.getElementById('stripe'+location).value = colorNameSpace[name]
+        }
+        function activate(){
+            stripes.height = 500/stripes.amount
+           var txt = ""
+           for(var i = 0; i < stripes.amount; i++){
+               stripes.colors[i] = document.getElementById("stripe"+(i+1)).value
+               txt+='<div class="colordiv" style="background:'+stripes.colors[i]+'; height:'+stripes.height+'px;"></div>'
+           }
+           console.log(txt)
+           document.getElementById('canvas').innerHTML = txt
+           console.log(document.getElementById('canvas').innerHTML)
+        }
+        function transform(){
+            var transformation = document.getElementById('rotation').value;
+            document.getElementById('canvas').style.transform = 'rotate('+transformation+'deg)'
+            document.getElementById('rotation_amount').innerHTML = transformation+' degrees';
+            
+        }
+        function transformB(value){
+            document.getElementById('rotation').value = value;
+            transform();
+        }
+        function add(){
+            stripes.amount++;
+            pattern = "<fieldset><label for=\"stripe"+stripes.amount+"\">Displayed Color for stripe "+stripes.amount+"(along with color options)</label><input name='stripe"+stripes.amount+"' id='stripe"+stripes.amount+"' class='Button Input' type='color' value='#33334e' disabled><button onclick='color("+stripes.amount+",\"Gold\")' class='Gold Button'>Gold</button><button onclick='color("+stripes.amount+",\"Red\")' class='Red Button'>Red</button><button onclick='color("+stripes.amount+",\"Green\")' class='Green Button'>Green</button><button onclick='color("+stripes.amount+",\"Lime\")' class='Lime Button'>Lime</button><button onclick='color("+stripes.amount+",\"Blue\")' class='Blue Button'>Blue</button><button onclick='color("+stripes.amount+",\"Black\")' class='Black Button'>Black</button><button onclick='color("+stripes.amount+",\"White\")' class='White Button'>White</button><button onclick='color("+stripes.amount+",\"Tan\")' class='Tan Button'>Tan</button><button onclick='color("+stripes.amount+",\"Gray\")' class='Gray Button'>Gray</button><button onclick='color("+stripes.amount+",\"Pink\")' class='Pink Button'>Pink</button><button onclick='color("+stripes.amount+",\"Orange\")' class='Orange Button'>Orange</button><button onclick='color("+stripes.amount+",\"Sky\")' class='Sky Button'>Sky</button><button onclick='color("+stripes.amount+",\"Purple\")' class='Purple Button'>Purple</button></fieldset>";
+            document.getElementById('sidebar').innerHTML = (document.getElementById('sidebar').innerHTML) + pattern
+        }
+    </script>
+    <style>
+        /*   Gold: '#ffcc00',
+            Red: '#e43300',
+            Green: '#009900',
+            Blue: '#0066ff',
+            Black: '#000000',
+            White: '#f0f0f0' */
+        .Button{
+            width: 56px;
+            height: 56px;
+            border-radius: 5px;
+            border-style:outset;
+            border-color: #999;
+            border-width: 2px;
+            padding: 2px;
+            margin: 2px
+        }
+        .Text{
+            height: 24px;
+            width: 100%;
+            background: #fff;
+            color: #333;
+        }
+        .Gold{
+            background-color: #ffcc00;
+        }
+        .Red{
+            background-color: #e43300;
+        }
+        .Green{
+            background-color: #009900;
+        }
+        .Lime{
+            background-color: #66f04e;
+        }
+        .Blue{
+            background-color: #0066ff;
+        }
+        .Black{
+            background-color: #33334e;
+            color: white;
+        }
+        .White{
+            background-color: #f0f0f0;
+        }
+        .Tan{
+            background-color: #ffcc99;
+        }
+        .Pink{
+            background-color: #ff99cc;
+        }
+        .Orange{
+            background-color: #ff9900;
+        }
+        .Gray{
+            background-color: #cccce4;
+        }
+        .Sky{
+            background-color: #33cce4;
+        }
+        .Purple{
+            background-color: #9900ff;
+        }
+        label,p{
+            font-size: 12px;
+            display: block;
+            font-family: sans-serif;
+        }
+        #canvas{
+            height: 500px;
+            width: 500px;
+            margin: 100px;
+        }
+        #canvashold{
+            height: 500px;
+            width: 500px;
+            object-fit: contain; 
+        }
+    </style>
+</head>
+<body>
+    <div id='canvashold'><div id='canvas'></div></div>
+    <div id='sidebar'>
+        <label for="rotation">Rotation of stripes (0 to 360 degress)</label>
+        <input name='rotation' id='rotation' type="range" max="360" min="0" value="0" onchange="transform()">
+        <button onclick='transformB(0)' id="Button">0&deg;</button>
+        <button onclick='transformB(45)' id="Button">45&deg;</button>
+        <button onclick='transformB(90)' id="Button">90&deg;</button>
+        <button onclick='transformB(180)' id="Button">180&deg;</button>
+        <p id='rotation_amount'>0</p>
+        <button class='Button Text' onclick="add()">Add new stripe</button>
+        <button class='Button Text' onclick="activate()">Generate stripes</button>
+        <fieldset>
+            <label for="stripe1">Displayed Color for stripe 1(along with color options)</label>
+            <input name='stripe1' id='stripe1' class='Button Input' type='color' value='#33334e' disabled>
+            <button onclick='color(1,"Gold")' class='Gold Button'>Gold</button>
+            <button onclick='color(1,"Red")' class='Red Button'>Red</button>
+            <button onclick='color(1,"Green")' class='Green Button'>Green</button>
+            <button onclick='color(1,"Lime")' class='Lime Button'>Lime</button>
+            <button onclick='color(1,"Blue")' class='Blue Button'>Blue</button>
+            <button onclick='color(1,"Black")' class='Black Button'>Black</button>
+            <button onclick='color(1,"White")' class='White Button'>White</button>
+            <button onclick='color(1,"Tan")' class='Tan Button'>Tan</button>
+            <button onclick='color(1,"Gray")' class='Gray Button'>Gray</button>
+            <button onclick='color(1,"Pink")' class='Pink Button'>Pink</button>
+            <button onclick='color(1,"Orange")' class='Orange Button'>Orange</button>
+            <button onclick='color(1,"Sky")' class='Sky Button'>Sky</button>
+            <button onclick='color(1,"Purple")' class='Purple Button'>Purple</button>
+        </fieldset>
+    </div>
+</body>
+</html>
